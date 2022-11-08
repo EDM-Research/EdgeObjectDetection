@@ -3,7 +3,6 @@ from typing import List
 import numpy as np
 from matplotlib import pyplot as plt
 import matplotlib
-import umap
 
 plt.style.use("ggplot")
 

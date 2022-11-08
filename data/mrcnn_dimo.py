@@ -25,6 +25,9 @@ class DimoConfig(config.Config):
     TRAIN_ROIS_PER_IMAGE = 50
     LEARNING_RATE = 0.001
     NUM_CLASSES = 8 + 1
+    IMAGE_CHANNEL_COUNT = 1
+    BACKBONE = "resnet50"
+    MEAN_PIXEL = np.array([127.0])
 
     def __init__(self, num_classes):
         self.NUM_CLASSES = num_classes
@@ -40,6 +43,9 @@ class DimoInferenceConfig(config.Config):
     IMAGES_PER_GPU = 1
     DETECTION_MIN_CONFIDENCE = 0.9
     USE_MINI_MASK = False
+    IMAGE_CHANNEL_COUNT = 1
+    BACKBONE = "resnet50"
+    MEAN_PIXEL = np.array([127.0])
 
     def __init__(self, num_classes):
         self.NUM_CLASSES = num_classes

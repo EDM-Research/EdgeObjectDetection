@@ -1,4 +1,5 @@
 import imgaug.augmenters as iaa
+from training.edge_augment import EdgeAugment
 
 augmenters = iaa.Sequential([
             iaa.SomeOf((0, 2), [
@@ -19,3 +20,9 @@ augmenters = iaa.Sequential([
                 iaa.Fliplr()
             ])
         ])
+
+edge_augmenter = iaa.Sequential([
+    iaa.OneOf([
+        EdgeAugment((0.0, 1.0))
+    ])
+])

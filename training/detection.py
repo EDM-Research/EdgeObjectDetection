@@ -1,7 +1,6 @@
 import math
 
 import numpy as np
-import umap
 
 from mrcnn.utils import Dataset
 from mrcnn.config import Config

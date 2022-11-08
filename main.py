@@ -11,9 +11,8 @@ import cv2
 import numpy as np
 from training import mrcnn as mrcnn_training
 import tensorflow.keras.backend as K
-from utils import plotting
+from training.augmentation import EdgeAugment
 import logging.config
-from utils import umap_tools
 
 config = configparser.ConfigParser()
 config.read('config.ini')
@@ -79,6 +78,7 @@ def show_subsets(subsets: list, dimo_path: str = None):
     target_dimo_path = dimo_path if dimo_path is not None else DIMO_PATH
     dataset_train, dataset_val, config = mrcnn_dimo.get_dimo_datasets(target_dimo_path, subsets)
     config.USE_MINI_MASK = False
+    augmenter = EdgeAugment()
 
     print(f"training images: {len(dataset_train.image_ids)}")
     print(f"validation images: {len(dataset_val.image_ids)}")
@@ -87,7 +87,9 @@ def show_subsets(subsets: list, dimo_path: str = None):
         image_id = random.choice(dataset_train.image_ids)
         image_info = dataset_train.image_info[image_id]
         image, image_meta, gt_class_id, gt_bbox, gt_mask = modellib.load_image_gt(dataset_train, config, image_id)
-        # Compute Bounding box
+        image = augmenter(image=image)
+        cv2.imshow("image", image)
+        cv2.waitKey(0)
         mrcnn_visualise.display_instances(image, gt_bbox, gt_mask, gt_class_id, dataset_train.class_names, title=image_info['id'])
 
 

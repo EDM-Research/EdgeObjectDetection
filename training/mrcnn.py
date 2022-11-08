@@ -33,11 +33,11 @@ def get_model_folder():
         return 'models'
 
 
-def train(train_set: DIMODataset, val_set: DIMODataset, config: config.Config, use_coco_weights: bool = True,
-          augment: bool = True, checkpoint_model: modellib.MaskRCNN = None, ft_train_set: DIMODataset = None, layers: str = 'heads', save_all: bool = True):
+def train(train_set: DIMODataset, val_set: DIMODataset, config: config.Config,
+          checkpoint_model: modellib.MaskRCNN = None, ft_train_set: DIMODataset = None, layers: str = 'heads', save_all: bool = True):
     assert layers in ['3+', '4+', '5+', 'heads', 'all']
 
-    augmenters = augmentation.augmenters if augment else None
+    augmenters = augmentation.edge_augmenter
     if checkpoint_model:
         model = checkpoint_model
     else:
@@ -60,20 +60,12 @@ def train(train_set: DIMODataset, val_set: DIMODataset, config: config.Config, u
         wandb.init(project=wandb_info[0], entity=wandb_info[1], config=wandb_config)
         custom_callbacks.append(WandbCallback())
 
-    layers = layers if use_coco_weights else 'all'
+    layers = 'all'
 
     logging.info(f"Training model {model.log_dir}")
     logging.info(f"\tTraining on {'+'.join(train_set.subsets)}")
     logging.info(f"\tTraining images: {train_set.num_images}")
-    logging.info(f"\tAugmentation: {augment})")
-    logging.info(f"\tTransfer Learning: {use_coco_weights}\n")
     logging.info(f"\tTraining layers: {layers}\n")
-
-    if use_coco_weights and checkpoint_model is None:
-        weights_path = COCO_WEIGHTS_PATH
-        if not os.path.exists(weights_path):
-            utils.download_trained_weights(weights_path)
-        model.load_weights(weights_path, by_name=True, exclude=["mrcnn_class_logits", "mrcnn_bbox_fc", "mrcnn_bbox", "mrcnn_mask"])
 
     train_epochs = 75 if ft_train_set else 100
     model.train(train_set, val_set,
