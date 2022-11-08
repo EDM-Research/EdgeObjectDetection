@@ -30,7 +30,7 @@ class EdgeAugment(meta.Augmenter):
                                           random_state=random_state)
         for i, (image, sig) in enumerate(zip(images, samples)):
             image = edge_operations.random_canny(image)
-            image = edge_operations.deform_edges(image, deform_factor=sig)
+            image = edge_operations.deform_edges(image, deform_factor=sig).astype(np.float32)
             batch.images[i] = np.expand_dims(image, axis=-1)
         return batch
 

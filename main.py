@@ -65,7 +65,7 @@ def train_subsets(subsets: list, model_id: str = None, augment: bool = False, tr
     model = mrcnn_training.load_model(model_id, config, mode="training") if model_id else None
     layers = layers if layers else 'heads'
     # train model
-    mrcnn_training.train(train, val, config, augment=augment, use_coco_weights=transfer_learning, checkpoint_model=model, ft_train_set=ft_train, layers=layers, save_all=save_all)
+    mrcnn_training.train(train, val, config, checkpoint_model=model, ft_train_set=ft_train, layers=layers, save_all=save_all)
 
 
 def prepare_subsets(subsets: list, override: bool = False, split_scenes: bool = False, dimo_path: str = None):
@@ -88,9 +88,7 @@ def show_subsets(subsets: list, dimo_path: str = None):
         image_info = dataset_train.image_info[image_id]
         image, image_meta, gt_class_id, gt_bbox, gt_mask = modellib.load_image_gt(dataset_train, config, image_id)
         image = augmenter(image=image)
-        cv2.imshow("image", image)
-        cv2.waitKey(0)
-        mrcnn_visualise.display_instances(image, gt_bbox, gt_mask, gt_class_id, dataset_train.class_names, title=image_info['id'])
+        mrcnn_visualise.display_instances(image, gt_bbox, gt_mask, gt_class_id, dataset_train.class_names, title=image_info['id'], show_mask=False)
 
 
 def test_subsets(subsets: list, model_id: str, save_results: bool = False, dimo_path: str = None):

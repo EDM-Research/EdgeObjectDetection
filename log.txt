@@ -41,3 +41,23 @@ Training model E:/projects/DIMO_ObjectDetection/models\dimo20221003T1710
 
 	Training layers: all
 
+Training model models\dimo20221108T1648
+	Training on debug
+	Training images: 187
+	Training layers: all
+
+Training model models\dimo20221108T1649
+	Training on debug
+	Training images: 187
+	Training layers: all
+
+Training model models\dimo20221108T1650
+	Training on debug
+	Training images: 187
+	Training layers: all
+
+Training model models\dimo20221108T1652
+	Training on debug
+	Training images: 187
+	Training layers: all
+
