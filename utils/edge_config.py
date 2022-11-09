@@ -10,9 +10,9 @@ warp_offset = 8
 max_downsize = 0.5
 
 # random canny settings
-canny_base = 70
-canny_margin = 30
-canny_space = 60
+canny_base = 50
+canny_margin = 40
+canny_space = 100
 
 # hard negative sample settings
 min_translation = 0.2

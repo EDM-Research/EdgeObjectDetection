@@ -86,8 +86,7 @@ def show_subsets(subsets: list, dimo_path: str = None):
     while True:
         image_id = random.choice(dataset_train.image_ids)
         image_info = dataset_train.image_info[image_id]
-        image, image_meta, gt_class_id, gt_bbox, gt_mask = modellib.load_image_gt(dataset_train, config, image_id)
-        image = augmenter(image=image)
+        image, image_meta, gt_class_id, gt_bbox, gt_mask = modellib.load_image_gt(dataset_train, config, image_id, augmentation=augmenter)
         mrcnn_visualise.display_instances(image, gt_bbox, gt_mask, gt_class_id, dataset_train.class_names, title=image_info['id'], show_mask=False)
 
 

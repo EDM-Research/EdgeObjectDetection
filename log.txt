@@ -61,3 +61,8 @@ Training model models\dimo20221108T1652
 	Training images: 187
 	Training layers: all
 
+Training model D:/Models/edge_DIMO\dimo20221108T1717
+	Training on sim_jaigo_rand_light_rand_pose
+	Training images: 70200
+	Training layers: all
+
