@@ -33,8 +33,8 @@ def get_model_folder():
         return 'models'
 
 
-def train(train_set: DIMODataset, val_set: DIMODataset, config: config.Config,
-          checkpoint_model: modellib.MaskRCNN = None, ft_train_set: DIMODataset = None, layers: str = 'heads', save_all: bool = True):
+def train(train_set: DIMODataset, val_set: DIMODataset, config: config.Config, epochs: int = 100,
+          checkpoint_model: modellib.MaskRCNN = None, layers: str = 'heads', save_all: bool = True):
     assert layers in ['3+', '4+', '5+', 'heads', 'all']
 
     augmenters = augmentation.edge_augmenter
@@ -67,25 +67,13 @@ def train(train_set: DIMODataset, val_set: DIMODataset, config: config.Config,
     logging.info(f"\tTraining images: {train_set.num_images}")
     logging.info(f"\tTraining layers: {layers}\n")
 
-    train_epochs = 75 if ft_train_set else 100
     model.train(train_set, val_set,
                 learning_rate=config.LEARNING_RATE,
-                epochs=train_epochs,
+                epochs=epochs,
                 layers=layers,
                 augmentation=augmenters,
                 custom_callbacks=custom_callbacks,
                 save_all=save_all)
-
-    if ft_train_set:
-        logging.info(f"\tFinetuning on {'+'.join(ft_train_set.subsets)}")
-        logging.info(f"\tFintuning on images: {ft_train_set.num_images}")
-        model.train(ft_train_set, val_set,
-                    learning_rate=config.LEARNING_RATE / 10,
-                    epochs=100,
-                    layers='all',
-                    augmentation=augmenters,
-                    custom_callbacks=custom_callbacks,
-                    save_all=save_all)
 
     logging.info("==========================================================================")
 

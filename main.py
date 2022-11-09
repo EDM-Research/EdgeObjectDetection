@@ -50,22 +50,17 @@ def test_batch(batch_file: str):
     file_io.write_test_metrics(model_tests, filename)
 
 
-def train_subsets(subsets: list, model_id: str = None, augment: bool = False, transfer_learning: bool = False,
-                  train_image_counts: list = None, ft_subsets: list = None, ft_image_count: int = None, layers: str = None, save_all: bool = False, dimo_path: str = None):
+def train_subsets(subsets: list, model_id: str = None, epochs: int = 100,
+                  train_image_counts: list = None, layers: str = None, save_all: bool = False, dimo_path: str = None):
     target_dimo_path = dimo_path if dimo_path is not None else DIMO_PATH
     # load training set
     train, val, config = mrcnn_dimo.get_dimo_datasets(target_dimo_path, subsets, train_image_counts=train_image_counts)
-
-    # if specified, load fintuning dataset
-    ft_train = None
-    if ft_subsets:
-        ft_train, _, _ = mrcnn_dimo.get_dimo_datasets(target_dimo_path, ft_subsets, train_image_counts=ft_image_count)
 
     # load model to continue training, if specified
     model = mrcnn_training.load_model(model_id, config, mode="training") if model_id else None
     layers = layers if layers else 'heads'
     # train model
-    mrcnn_training.train(train, val, config, checkpoint_model=model, ft_train_set=ft_train, layers=layers, save_all=save_all)
+    mrcnn_training.train(train, val, config, epochs, checkpoint_model=model, layers=layers, save_all=save_all)
 
 
 def prepare_subsets(subsets: list, override: bool = False, split_scenes: bool = False, dimo_path: str = None):
