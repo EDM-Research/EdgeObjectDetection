@@ -27,7 +27,6 @@ class DimoConfig(config.Config):
     NUM_CLASSES = 8 + 1
     IMAGE_CHANNEL_COUNT = 1
     MEAN_PIXEL = np.array([127.0])
-    BACKBONE = "resnet50"
 
     def __init__(self, num_classes):
         self.NUM_CLASSES = num_classes
@@ -45,7 +44,6 @@ class DimoInferenceConfig(config.Config):
     USE_MINI_MASK = False
     IMAGE_CHANNEL_COUNT = 1
     MEAN_PIXEL = np.array([127.0])
-    BACKBONE = "resnet50"
 
     def __init__(self, num_classes):
         self.NUM_CLASSES = num_classes

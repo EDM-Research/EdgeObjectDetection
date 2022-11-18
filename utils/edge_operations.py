@@ -95,14 +95,31 @@ def deform_edges(edges: np.array, deform_factor: 0.5) -> np.array:
 
 
 if __name__ == "__main__":
-    image_folder = "C:/Users/bvanherle/Documents/Datasets/dimo/debug/000000_00/rgb"
-    for image_file in os.listdir(image_folder):
-        image = cv2.imread(os.path.join(image_folder, image_file))
-        image = cv2.resize(image, (image.shape[1] // 2, image.shape[0] // 2))
-        cv2.imshow("original", image)
-        edges = random_canny(image)
-        cv2.imshow("Original edges", edges)
-        for i in range(10):
-            deformed = deform_edges(edges, i/10.0)
-            cv2.imshow("warped", deformed)
-            cv2.waitKey(0)
+    real_image_data = "D:/Datasets/DIMO/dimo/real_jaigo_000-150"
+    for folder in os.listdir(real_image_data):
+        if os.path.isdir(os.path.join(real_image_data, folder)):
+            scene = int(folder)
+            sim_scene_id = f"{str(scene).zfill(6)}_00"
+            real_image_folder = os.path.join(real_image_data, folder, "rgb")
+            sim_image_folder = os.path.join("D:/Datasets/DIMO/dimo/sim_jaigo_real_light_real_pose", sim_scene_id, "rgb")
+
+            for real_image_file, sim_image_file in zip(os.listdir(real_image_folder), os.listdir(sim_image_folder)):
+                real_image = cv2.imread(os.path.join(real_image_folder, real_image_file))
+                real_image = cv2.resize(real_image, (real_image.shape[1] // 2, real_image.shape[0] // 2))
+
+                real_edges = random_canny(real_image)
+                #real_edges = cv2.Canny(real_image, config.canny_base, config.canny_base + config.canny_space)
+
+                sim_image = cv2.imread(os.path.join(sim_image_folder, sim_image_file))
+                sim_image = cv2.resize(sim_image, (sim_image.shape[1] // 2, sim_image.shape[0] // 2))
+
+                sim_edges = random_canny(sim_image)
+                #sim_edges = cv2.Canny(sim_image, config.canny_base, config.canny_base + config.canny_space)
+
+                deformed = deform_edges(sim_edges, 0.5)
+
+                result = np.hstack((real_edges, sim_edges, deformed))
+                result = cv2.resize(result, (result.shape[1] // 2, result.shape[0] // 2))
+                cv2.imshow("result", result)
+                cv2.waitKey(0)
+

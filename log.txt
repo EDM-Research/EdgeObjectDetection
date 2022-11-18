@@ -71,3 +71,24 @@ Training model D:/Models/edge_DIMO\dimo20221109T0844
 	Training images: 70200
 	Training layers: all
 
+Training model D:/Models/edge_DIMO\dimo20221109T0854
+	Training on sim_jaigo_rand_light_rand_pose
+	Training images: 70200
+	Training layers: all
+
+Training model D:/Models/edge_DIMO\dimo20221109T0903
+	Training on sim_jaigo_rand_light_rand_pose
+	Training images: 70200
+	Training layers: all
+
+Training model D:/Models/edge_DIMO\dimo20221109T1102
+	Training on sim_jaigo_rand_light_rand_pose
+	Training images: 70200
+	Training layers: all
+
+Training model D:/Models/edge_DIMO\dimo20221110T1628
+	Training on sim_jaigo_rand_light_rand_pose
+	Training images: 70200
+	Training layers: all
+
+==========================================================================

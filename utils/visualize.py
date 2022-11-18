@@ -23,7 +23,8 @@ def show_results(results: list, images: list, class_names):
     colors = get_colors(len(class_names))
     for image, result in zip(images, results):
         #image, *_ = mrcnn_model.load_image_gt(dataset, config, result['image_id'])
-        mrcnn_vis.display_instances(image, result['rois'], result['masks'], result['class_ids'], class_names, colors=colors)
+        image_colors = [colors[id] for id in result['class_ids']]
+        mrcnn_vis.display_instances(image, result['rois'], result['masks'], result['class_ids'], class_names, colors=image_colors)
 
 
 def save_results(results: list, images: list, location: str, class_names: list):

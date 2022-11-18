@@ -23,6 +23,6 @@ augmenters = iaa.Sequential([
 
 edge_augmenter = iaa.Sequential([
     iaa.OneOf([
-        EdgeAugment((0.0, 1.0))
+        EdgeAugment((0.0, 0.4))
     ])
 ])
