@@ -92,3 +92,14 @@ Training model D:/Models/edge_DIMO\dimo20221110T1628
 	Training layers: all
 
 ==========================================================================
+Training model D:/Models/edge_DIMO\dimo20221118T1624
+	Training on sim_jaigo_rand_light_rand_pose
+	Training images: 70200
+	Training layers: all
+
+Training model D:/Models/edge_DIMO\dimo20221128T1823
+	Training on sim_jaigo_rand_light_rand_pose
+	Training images: 70200
+	Training layers: all
+
+==========================================================================

@@ -7,7 +7,7 @@ from mrcnn.utils import Dataset
 from mrcnn.config import Config
 import mrcnn.model as modellib
 import utils.edge_config as edge_config
-
+import utils.edge_operations as edgeops
 
 def get_detections_dataset(dataset: Dataset, model: modellib.MaskRCNN, config: Config) -> list:
     results = []
@@ -15,7 +15,7 @@ def get_detections_dataset(dataset: Dataset, model: modellib.MaskRCNN, config: C
     for i, image_id in enumerate(dataset.image_ids):
         print(f"Testing image {i}/{len(dataset.image_ids)}", end='\r')
         image, *_ = modellib.load_image_gt(dataset, config, image_id)
-        image = cv2.Canny(image, edge_config.canny_base, edge_config.canny_base + edge_config.canny_space)
+        image = edgeops.random_pst(image)
         image = np.expand_dims(image, axis=-1)
         result = model.detect([image], verbose=0)[0]
         result['image_id'] = image_id

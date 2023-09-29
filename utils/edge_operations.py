@@ -3,12 +3,26 @@ import numpy as np
 import random
 import os
 import utils.edge_config as config
+from utils.pst import pst
 
 
 def random_canny(image: np.array) -> np.array:
     lower = random.randint(config.canny_base - config.canny_margin, config.canny_base + config.canny_margin)
     upper = random.randint(lower + config.canny_space - config.canny_margin, lower + config.canny_space + config.canny_margin)
     return cv2.Canny(image, lower, upper)
+
+
+def random_pst(image: np.array) -> np.array:
+    image = cv2.cvtColor(image, cv2.COLOR_RGB2GRAY)
+    LPF = random.gauss(0.3, 0.05)
+    phase_strength = random.gauss(0.4, 0.1)
+    Warp_strength = random.gauss(0.2, 0.01)
+    Threshold_min = -1
+    Threshold_max = 0.0019
+    Morph_flag = 1
+
+    edge, PST_Kernel = pst(image, LPF, phase_strength, Warp_strength, Threshold_min, Threshold_max, Morph_flag)
+    return edge
 
 
 def drop_edges(edges: np.array) -> np.array:
@@ -107,13 +121,13 @@ if __name__ == "__main__":
                 real_image = cv2.imread(os.path.join(real_image_folder, real_image_file))
                 real_image = cv2.resize(real_image, (real_image.shape[1] // 2, real_image.shape[0] // 2))
 
-                real_edges = random_canny(real_image)
+                real_edges = random_pst(real_image)
                 #real_edges = cv2.Canny(real_image, config.canny_base, config.canny_base + config.canny_space)
 
                 sim_image = cv2.imread(os.path.join(sim_image_folder, sim_image_file))
                 sim_image = cv2.resize(sim_image, (sim_image.shape[1] // 2, sim_image.shape[0] // 2))
 
-                sim_edges = random_canny(sim_image)
+                sim_edges = random_pst(sim_image)
                 #sim_edges = cv2.Canny(sim_image, config.canny_base, config.canny_base + config.canny_space)
 
                 deformed = deform_edges(sim_edges, 0.5)
